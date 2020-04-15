@@ -52,7 +52,18 @@ class Battlesnake(object):
         data = cherrypy.request.json
         print("END")
         return "ok"
-            
+    
+class snake:
+        
+    def get_next_move(self):
+        head = self.get_head_coords()
+        if head["x"] == 0:
+             return "up"
+        return "left"
+     
+    def get_head_coords(self)
+        return self.request["you"]["body"][0]
+         
 
          
         
