@@ -57,14 +57,8 @@ class Battlesnake(object):
         return "ok"
             
 
-
-class Snake():
-    def __init__(self, request):
-    
-    def get_next_move():
-        return "up"
-        
-        
+  
+      
         
         
 if __name__ == "__main__":
