@@ -58,6 +58,15 @@ class Battlesnake(object):
             
 
 
+class Snake():
+    def __init__(self, request):
+    
+    def get_next_move():
+        return "up"
+        
+        
+        
+        
 if __name__ == "__main__":
     server = Battlesnake()
     cherrypy.config.update({"server.socket_host": "0.0.0.0"})
