@@ -59,8 +59,8 @@ class Snake:
             def get_next_move(self):
                 head = self.get_head_coords()
                 if head["x"] == 0:
-                    return "left"
-                return "right"
+                    return "up"
+                return "left"
                 
             def get_head_coords(self):
                 return self.request["you"]["body"][0]
