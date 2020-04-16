@@ -1,7 +1,6 @@
 import os
 
 import cherrypy
-
 """
 This is a simple Battlesnake server written in Python.
 For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python/README.md
@@ -28,20 +27,22 @@ class Battlesnake(object):
         # TODO: Use this function to decide how your snake is going to look on the board.
         data = cherrypy.request.json
         print("START")
-        return {"color": "#2F00FF", "headType": "bwc-scarf", "tailType": "regular"}
+        return {
+            "color": "#8F00FF",
+            "headType": "bwc-scarf",
+            "tailType": "regular"
+        }
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
     def move(self):
         data = cherrypy.request.json
-        print(data)
         snake = Snake(data)
-        move = snake.get_next_move
-   
+        move = snake.get_next_move()
+
         print(f"MOVE: {move}")
         return {"move": move}
-
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -51,31 +52,28 @@ class Battlesnake(object):
         data = cherrypy.request.json
         print("END")
         return "ok"
-        
-class Snake:
-            def __init__(self, request):
-                self.request = request
-                
-            def get_next_move(self):
-                head = self.get_head_coords()
-                if head["x"] == 0:
-                    return "up"
-                return "left"
-                
-            def get_head_coords(self):
-                return self.request["you"]["body"][0]
-             
-                
-            
-                
-            
 
-     
+
+class Snake:
+    def __init__(self, request):
+        self.request = request
+
+    def get_next_move(self):
+        head = self.get_head_coords()
+        if head["x"] == 0:
+            return "up"
+        return "left"
+
+    def get_head_coords(self):
+        return self.request["you"]["body"][0]
+
+
 if __name__ == "__main__":
     server = Battlesnake()
     cherrypy.config.update({"server.socket_host": "0.0.0.0"})
-    cherrypy.config.update(
-        {"server.socket_port": int(os.environ.get("PORT", "8080")),}
-    )
+    cherrypy.config.update({
+        "server.socket_port":
+        int(os.environ.get("PORT", "8080")),
+    })
     print("Starting Battlesnake Server...")
     cherrypy.quickstart(server)
