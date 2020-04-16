@@ -58,7 +58,7 @@ class snake:
             def __init__(self, request):
                 self.request = request
                 
-            def get_next_move(self),
+            def get_next_move(self):
                 head = self.get_head_coords()
                 if head["x"] == 0:
                     return "up"
