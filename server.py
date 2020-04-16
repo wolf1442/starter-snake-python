@@ -45,6 +45,21 @@ class Battlesnake(object):
         print(f"MOVE: {move}")
         return {"move": move}
 
+class Snake:
+        def __init__(self, request):
+            self.request = request
+        
+        def get_next_move=(self):
+                head = self.get_head_coords()
+                if head["x"] == 0:
+                    return "up"
+                return "left"   
+                
+                
+                
+                
+         
+
     @cherrypy.expose
     @cherrypy.tools.json_in()
     def end(self):
@@ -65,15 +80,7 @@ class Battlesnake(object):
         
      
          
-class Snake:
-        def __init__(self, request):
-            self.request = request
-        
-        def get_next_move=(self):
-                head = self.get_head_coords()
-                if head["x"] == 0:
-                    return "up"
-                return "left"   
+
                 
          
         
