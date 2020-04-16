@@ -55,7 +55,7 @@ class Battlesnake(object):
         return "ok"
         
 class snake:
-            def__init__(self, request):
+            def __init__(self, request):
                 self.request = request
 
      
