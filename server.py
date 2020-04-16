@@ -54,7 +54,9 @@ class Battlesnake(object):
         print("END")
         return "ok"
         
-        
+class snake:
+            def__init__(self, request):
+                self.request = request
 
      
 if __name__ == "__main__":
