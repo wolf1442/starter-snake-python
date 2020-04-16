@@ -28,7 +28,7 @@ class Battlesnake(object):
         # TODO: Use this function to decide how your snake is going to look on the board.
         data = cherrypy.request.json
         print("START")
-        return {"color": "#4F00FF", "headType": "bwc-scarf", "tailType": "regular"}
+        return {"color": "#8F00FF", "headType": "bwc-scarf", "tailType": "regular"}
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -41,7 +41,7 @@ class Battlesnake(object):
         snake = snake(data)
         move = snake.get_next_move()
    
-        print(f"MOVE: {move}")
+        print("MOVE: {move}")
         return {"move": move}
 
 
@@ -65,7 +65,7 @@ class snake:
                 return "right"
                 
                 def get_head_coords(self):
-                    return self.request["you"]["body"][1]
+                    return self.request["you"]["body"][0]
                 
             
                 
