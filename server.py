@@ -55,6 +55,18 @@ class Battlesnake(object):
         print("END")
         return "ok"
         
+        
+@dataclass
+class Snake:
+        def __init__(self, request):
+            self.request = request
+        
+        def get_next_move=(self):
+                head = self.get_head_coords()
+                if head["x"] == 0:
+                    return "up"
+                return "left"     
+    
      
 if __name__ == "__main__":
     server = Battlesnake()
