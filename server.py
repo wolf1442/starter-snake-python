@@ -60,11 +60,7 @@ class Battlesnake(object):
 class Snake:
         def __init__(self, request):
             self.request = request
-        def get.next.move=(self):
-                head = self.get_head_coords()
-                if head["x"] == 0:
-                    return "up"
-                return "left"     
+    
     
      
 if __name__ == "__main__":
