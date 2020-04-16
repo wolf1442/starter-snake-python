@@ -57,7 +57,7 @@ class snake:
                 
             def get_next_move(self):
                 head = self.get_head_coords()
-                if head["x"] == 0;
+                if head["x"] == 0:
                     return "left"
                 return "right"
                 
