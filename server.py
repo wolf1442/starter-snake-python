@@ -64,8 +64,9 @@ class snake:
                     return "left"
                 return "right"
                 
-                def get_head_coords(self):
-                    return self.request["you"]["body"][0]
+            def get_head_coords(self):
+                return self.request["you"]["body"][0]
+             
                 
             
                 
