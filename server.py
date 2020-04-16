@@ -52,8 +52,8 @@ class Battlesnake(object):
         print("END")
         return "ok"
         
-class snake:
-            def __init__ (self, request):
+class Snake:
+            def __init__(self, request):
                 self.request = request
                 
             def get_next_move(self):
