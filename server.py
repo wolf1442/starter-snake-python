@@ -28,7 +28,7 @@ class Battlesnake(object):
         data = cherrypy.request.json
         print("START")
         return {
-            "color": "#8F00FF",
+            "color": "#2F00FF",
             "headType": "bwc-scarf",
             "tailType": "regular"
         }
@@ -59,14 +59,47 @@ class Snake:
         self.request = request
 
     def get_next_move(self):
-        head = self.get_head_coords()
-        if head["x"] == 0:
-            return "up"
-        return "left"
+        move = "up"
+
+        moves = self.get_preferred_move_order()
+        for m in moves: 
+            if self.is_move_safe(m):
+                move = m
+                break
+
+        return move
 
     def get_head_coords(self):
         return self.request["you"]["body"][0]
 
+    def get_preferred_move_order(self):
+        return ["up", "left", "down", "right"]
+
+    def is_move_safe(self, move):
+      move_coords = self.translate_move_to_coords(move)
+      if move_coords["x"] < 0:
+        return False
+      if move_coords["y"] < 0:
+        return False
+      if move_coords["x"] >= self.request["board"]["width"]:
+        return False
+      if move_coords["y"] >= self.request["board"]["height"]:
+        return False
+
+      return True
+       
+    def translate_move_to_coords(self)      
+        head = self.get_head_coords()
+        if move == "up":
+          return {"x": head["x"], "y": head["y"] - 1}
+        if move == "down":
+          return {"x": head["x"], "y": head["y"] + 1}
+        if move == "left":
+          return {"x": head["x"] - 1, "y": head["y"]}
+        if move == "right":
+          return {"x": head["x"] + 1, "y": head["y"]}
+
+        
 
 if __name__ == "__main__":
     server = Battlesnake()
