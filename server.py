@@ -46,13 +46,6 @@ class Battlesnake(object):
         return {"move": move}
 
 
-                return "left"   
-                
-                
-                
-                
-         
-
     @cherrypy.expose
     @cherrypy.tools.json_in()
     def end(self):
@@ -61,8 +54,19 @@ class Battlesnake(object):
         data = cherrypy.request.json
         print("END")
         return "ok"
-   
-                    
+        
+        
+class Snake:
+        def __init__(self, request):
+            self.request = request
+        
+        def get_next_move=(self):
+                head = self.get_head_coords()
+                if head["x"] == 0:
+                    return "up"
+                return "left"     
+    
+     
 if __name__ == "__main__":
     server = Battlesnake()
     cherrypy.config.update({"server.socket_host": "0.0.0.0"})
