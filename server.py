@@ -40,6 +40,7 @@ class Battlesnake(object):
         data = cherrypy.request.json
         snake = Snake(data)
         move = snake.get_next_move()
+        print(data)
 
         print(f"MOVE: {move}")
         return {"move": move}
