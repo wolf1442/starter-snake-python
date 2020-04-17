@@ -28,7 +28,7 @@ class Battlesnake(object):
         data = cherrypy.request.json
         print("START")
         return {
-            "color": "#2F00FF",
+            "color": "#8F00FF",
             "headType": "bwc-scarf",
             "tailType": "regular"
         }
@@ -77,6 +77,8 @@ class Snake:
 
     def is_move_safe(self, move):
       move_coords = self.translate_move_to_coords(move)
+      
+      # Don't move off board
       if move_coords["x"] < 0:
         return False
       if move_coords["y"] < 0:
@@ -86,9 +88,16 @@ class Snake:
       if move_coords["y"] >= self.request["board"]["height"]:
         return False
 
+     # Don't tun into ourselves
+
+      for body_coords in self.request["you"]["body"][:-1]:
+       if self.are_coords_equal(move_coords, body_coords):
+         return False
+
+
       return True
        
-    def translate_move_to_coords(self)      
+    def translate_move_to_coords(self, move) :     
         head = self.get_head_coords()
         if move == "up":
           return {"x": head["x"], "y": head["y"] - 1}
@@ -99,7 +108,8 @@ class Snake:
         if move == "right":
           return {"x": head["x"] + 1, "y": head["y"]}
 
-        
+    def are_coords_equal(self, one, two):
+      return (one.get("x") == two.get("x") and one.get("y") == two.get("y"))   
 
 if __name__ == "__main__":
     server = Battlesnake()
