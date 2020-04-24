@@ -28,8 +28,8 @@ class Battlesnake(object):
         data = cherrypy.request.json
         print("START")
         return {
-            "color": "#00FFF9",
-            "headType": "bwc-scarf",
+            "color": "#CD681E ",
+            "headType": "bwc-rudolph",
             "tailType": "bwc-bonhomme"
         }
 
@@ -129,7 +129,7 @@ class Snake:
 
       # once health hits search for food and sort in distance
       me = self.request["you"]
-      if me["health"] < 99 :
+      if me["health"] < 25 :
         food_distances = [
           (self.distance_to_coords(food_coords), food_coords)
           for food_coords in self.request["board"]["food"]
@@ -169,13 +169,13 @@ class Snake:
 
       # Don't move off board
 
-      if move_coords["x"] < 0:
-        return False
+      if move_coords["x"] < 1:
+        return False    
       if move_coords["y"] < 0:
         return False
-      if move_coords["x"] >= self.request["board"]["width"] :
+      if move_coords["x"] >= self.request["board"]["width"] -1 :
         return False
-      if move_coords["y"] >= self.request["board"]["height"] :
+      if move_coords["y"] >= self.request["board"]["height"]  :
         return False
 
      # Don't turn into ourselves
