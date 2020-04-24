@@ -29,7 +29,7 @@ class Battlesnake(object):
         print("START")
         return {
             "color": "#CD681E ",
-            "headType": "bwc-rudolph",
+            "headType": "bwc-scarf",
             "tailType": "bwc-bonhomme"
         }
 
@@ -129,7 +129,7 @@ class Snake:
 
       # once health hits search for food and sort in distance
       me = self.request["you"]
-      if me["health"] < 25 :
+      if me["health"] < 51 :
         food_distances = [
           (self.distance_to_coords(food_coords), food_coords)
           for food_coords in self.request["board"]["food"]
