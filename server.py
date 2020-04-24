@@ -43,7 +43,7 @@ class Battlesnake(object):
         print(f"TURN: {turn}")
         snake = Snake(data)
         move = snake.get_next_move()
-        # print(data)
+                # print(data)
         
         print(f"MOVE: {move}")
         return {"move": move}
@@ -82,6 +82,14 @@ class Snake:
             if snake["id"] != self.request["you"]["id"]:
                 heads.append(snake["body"][0])
         return heads  
+
+    # def all_enemy_bodies(self):
+    #     bodies = []
+    #     for snake in self.request["board"]["snakes"]:
+    #         bodies.append(snake["body"])
+    #     return bodies
+         
+            
         # return [self.request["board"]["snakes"][0]["body"][0]] 
 
     # def filter(all_heads):
@@ -108,26 +116,25 @@ class Snake:
     def get_preferred_move_order(self):
       moves = ["left", "down", "right", "up"]
       head = self.get_head_coords()
-
-
-      # # stay in corner
-      # head = self.get_head_coords()
-      # if head["y"] > self.request["board"]["height"] - 2:
-      #   moves.remove("down")
-      #   moves = ["down"] + moves
-      # if head ["x"] > self.request["board"]["width"] - 3 :
-      #   moves.remove("right")
-        # moves = ["right"] + moves
+    
+      # stay in corner
+      head = self.get_head_coords()
+      if head["y"] > self.request["board"]["height"] + 5 :
+        moves.remove("down")
+        moves = ["down"] + moves
+      if head ["x"] > self.request["board"]["width"] + 5 :
+        moves.remove("right")
+        moves = ["right"] + moves
 
 
       # once health hits search for food and sort in distance
       me = self.request["you"]
-      if me["health"] < 100:
+      if me["health"] < 20:
         food_distances = [
           (self.distance_to_coords(food_coords), food_coords)
           for food_coords in self.request["board"]["food"]
         ]
-        food_distances.sort(key=lambda y: y[0])
+        food_distances.sort(key=lambda x: x[0])
         target_coords = food_distances[0][1]
       
       # moves towards food
@@ -193,44 +200,73 @@ class Snake:
         # bottom right
         if move == "right" and enemy_head["x"] == head["x"] + 1 and enemy_head["y"] == head["y"] + 1:
           return False
+       
         if move == "down" and enemy_head["x"] == head["x"] + 1 and enemy_head["y"] == head["y"] + 1:  
           return False
-        elif move == "down" and body_coords["x"] == head["x"] and body_coords["y"] -1 == head["y"]: 
-          return True  
-        
+       
+       
+       
+       
         # top right
         if move == "right" and enemy_head["x"] == head["x"] + 1 and enemy_head["y"] == head["y"] - 1:
           return False
+      
+
+                    
         if move == "up" and enemy_head["x"] == head["x"] + 1 and enemy_head["y"] == head["y"] - 1:  
           return False 
-
+        
+         
+         
          # top left
         if move == "left" and enemy_head["x"] == head["x"] - 1 and enemy_head["y"] == head["y"] - 1:
           return False
+           
+ 
         if move == "up" and enemy_head["x"] == head["x"] - 1 and enemy_head["y"] == head["y"] - 1:  
-          return False  
+          return False 
+        
 
+         
+         
          # bottom left
         if move == "left" and enemy_head["x"] == head["x"] - 1 and enemy_head["y"] == head["y"] + 1:
           return False
+        
+  
         if move == "down" and enemy_head["x"] == head["x"] - 1 and enemy_head["y"] == head["y"] + 1:  
           return False
-
+       
+        
+        
          # directly up
         if move == "up" and enemy_head["x"] == head["x"] and enemy_head["y"] == head["y"] - 2:
           return False
+         
 
+        
+        
         # directly down
         if move == "down" and enemy_head["x"] == head["x"] and enemy_head["y"] == head["y"] + 2:
-          return False  
+          return False
+          
+    
 
+        
+        
         # directly left
         if move == "left" and enemy_head["x"] == head["x"] - 2 and enemy_head["y"] == head["y"]:
           return False    
+        
 
+         
+         
          # directly right
         if move == "right" and enemy_head["x"] == head["x"] + 2 and enemy_head["y"] == head["y"]:
-          return False      
+          return False  
+        
+ 
+      
                         
          #don't collide with own head
       for head_coords in snake["body"][:0]:
