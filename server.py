@@ -28,7 +28,7 @@ class Battlesnake(object):
         data = cherrypy.request.json
         print("START")
         return {
-            "color": "#CD681E ",
+            "color": "#cd681e",
             "headType": "bwc-scarf",
             "tailType": "bwc-bonhomme"
         }
@@ -169,13 +169,13 @@ class Snake:
 
       # Don't move off board
 
-      if move_coords["x"] < 1:
+      if move_coords["x"] < 0:
         return False    
       if move_coords["y"] < 0:
         return False
-      if move_coords["x"] >= self.request["board"]["width"] -1  :
+      if move_coords["x"] >= self.request["board"]["width"] :
         return False
-      if move_coords["y"] >= self.request["board"]["height"]  :
+      if move_coords["y"] >= self.request["board"]["height"] :
         return False
 
      # Don't turn into ourselves
