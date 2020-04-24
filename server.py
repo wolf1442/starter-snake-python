@@ -28,9 +28,9 @@ class Battlesnake(object):
         data = cherrypy.request.json
         print("START")
         return {
-            "color": "#8F00FF",
+            "color": "#09EFF3 ",
             "headType": "bwc-scarf",
-            "tailType": "regular"
+            "tailType": "bwc-bonhomme"
         }
 
     @cherrypy.expose
@@ -117,19 +117,19 @@ class Snake:
       moves = ["left", "down", "right", "up"]
       head = self.get_head_coords()
     
-      # stay in corner
-      head = self.get_head_coords()
-      if head["y"] > self.request["board"]["height"] + 5 :
-        moves.remove("down")
-        moves = ["down"] + moves
-      if head ["x"] > self.request["board"]["width"] + 5 :
-        moves.remove("right")
-        moves = ["right"] + moves
+      # # stay in corner
+      # head = self.get_head_coords()
+      # if head["y"] > self.request["board"]["height"] + 5 :
+      #   moves.remove("down")
+      #   moves = ["down"] + moves
+      # if head ["x"] > self.request["board"]["width"] + 5 :
+      #   moves.remove("right")
+      #   moves = ["right"] + moves
 
 
       # once health hits search for food and sort in distance
       me = self.request["you"]
-      if me["health"] < 20:
+      if me["health"] < 50 :
         food_distances = [
           (self.distance_to_coords(food_coords), food_coords)
           for food_coords in self.request["board"]["food"]
