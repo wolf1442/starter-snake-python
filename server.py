@@ -114,7 +114,7 @@ class Snake:
 
         
     def get_preferred_move_order(self):
-      moves = ["left", "down", "right", "up"]
+      moves = ["right", "down", "left", "up"]
       head = self.get_head_coords()
     
       # # stay in corner
