@@ -210,12 +210,12 @@ class Snake:
         return False
       if move_coords["y"] >= self.request["board"]["height"]  :
         return False
-      # if move_coords["x"] == 0 and move_coords["y"] == 10:
-      #   return False
-      # if move_coords["x"] == 10 and move_coords["y"] == 10:
-        # return False
-      # if move_coords["x"] == 10 and move_coords["y"] == 9:
-      #   return False      
+      if move_coords["x"] == 0 and move_coords["y"] == 10:
+        return False
+      if move_coords["x"] == 10 and move_coords["y"] == 10:
+        return False
+      if move_coords["x"] == 10 and move_coords["y"] == 9:
+        return False      
   
       # Don't turn into ourselves
 
