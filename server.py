@@ -43,7 +43,7 @@ class Battlesnake(object):
         print(f"TURN: {turn}")
         snake = Snake(data)
         move = snake.get_next_move()
-                # print(data)
+        
         
         print(f"MOVE: {move}")
         return {"move": move}
@@ -70,8 +70,10 @@ class Snake:
             if self.is_move_safe(m):
                 move = m
                 break
+        else:
+             return move == "right"
 
-        return move
+        return move 
 
     def get_head_coords(self):
         return self.request["you"]["body"][0]
@@ -83,6 +85,10 @@ class Snake:
                 heads.append(snake["body"][0])
         return heads  
 
+    def all_bodies(self):
+        bodies = []
+        for snake in self.request["board"]["snakes"]:
+          return bodies  
     # def all_enemy_bodies(self):
     #     bodies = []
     #     for snake in self.request["board"]["snakes"]:
@@ -129,7 +135,7 @@ class Snake:
 
       # once health hits search for food and sort in distance
       me = self.request["you"]
-      if me["health"] < 51 :
+      if me["health"] < 30 :
         food_distances = [
           (self.distance_to_coords(food_coords), food_coords)
           for food_coords in self.request["board"]["food"]
@@ -152,8 +158,35 @@ class Snake:
           moves.remove("up")
           moves = ["up"] + moves  
 
-        
-      return moves
+      if self.request["turn"] <= 50:  
+        return moves
+
+      me = self.request["you"]
+      if me["health"] < 95 :
+        food_distances = [
+          (self.distance_to_coords(food_coords), food_coords)
+          for food_coords in self.request["board"]["food"]
+        ]
+        food_distances.sort(key=lambda x: x[0])
+        target_coords = food_distances[0][1]
+      
+      # moves towards food
+        if head["x"] < target_coords["x"]:
+          moves.remove("right")
+          moves = ["right"] + moves
+        elif head["x"] > target_coords["x"]:
+          moves.remove("left")
+          moves = ["left"] + moves
+
+        if head["y"] < target_coords["y"]:
+          moves.remove("down")
+          moves = ["down"] + moves
+        elif head["y"] > target_coords["y"]:
+          moves.remove("up")
+          moves = ["up"] + moves  
+
+      if self.request["turn"] > 50: 
+        return moves    
     
     def is_move_safe(self, move):
       move_coords = self.translate_move_to_coords(move)
@@ -177,12 +210,12 @@ class Snake:
         return False
       if move_coords["y"] >= self.request["board"]["height"]  :
         return False
-      if move_coords["x"] == 0 and move_coords["y"] == 10:
-        return False
-      if move_coords["x"] == 10 and move_coords["y"] == 10:
-        return False
-      if move_coords["x"] == 10 and move_coords["y"] == 9:
-        return False      
+      # if move_coords["x"] == 0 and move_coords["y"] == 10:
+      #   return False
+      # if move_coords["x"] == 10 and move_coords["y"] == 10:
+        # return False
+      # if move_coords["x"] == 10 and move_coords["y"] == 9:
+      #   return False      
   
       # Don't turn into ourselves
 
@@ -248,6 +281,15 @@ class Snake:
          # directly up
         if move == "up" and enemy_head["x"] == head["x"] and enemy_head["y"] == head["y"] - 2:
           return False
+        
+        # if move == "up" and enemy_head["x"] == head["x"] and enemy_head["y"] == head["y"] + 2:
+        #   return True
+
+        if move == "up" and enemy_head["x"] == head["x"] and enemy_head["y"] == head["y"] + 2:
+          return True  
+
+
+          
          
 
         
@@ -269,15 +311,92 @@ class Snake:
          
          # directly right
         if move == "right" and enemy_head["x"] == head["x"] + 2 and enemy_head["y"] == head["y"]:
+          return False 
+           
+        if move == "right" and enemy_head["x"] == head["x"] + 2 and enemy_head["y"] == head["y"] and bodies:
+          return False 
+
+       
+        # # do not move into (9, 7)
+        # if move == "right" and head["x"] == 9 and head["y"] == 7:
+        #   return False 
+
+        # # do not move into (9, 6)
+        # if move == "right" and head["x"] == 9 and head["y"] == 6:
+        #   return False
+
+        # # do not move into (1, 8)
+        # if move == "left" and head["x"] == 1 and head["y"] == 8:
+        #   return False
+
+        # # do not move into (1, 7)
+        # if move == "left" and head["x"] == 1 and head["y"] == 7:
+        #   return False
+
+        # do not move into (0, 7)
+        # if move == "right" and head["x"] == 9 and head["y"] == 10:
+        #   return True 
+
+        # if move == "right" and head["x"] == 9 and head["y"] == 9:
+        #   return False   
+
+      #DON'T GET TRAPPED IN 
+      head = self.get_head_coords()
+      for bodies in self.all_bodies():
+        
+        # directly right
+        if move == "right" and bodies["x"] and bodies ["y"] == head(["x"] + 1 and ["y"] - 1) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 2 and ["y"]) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 1 and ["y"] - 1):
+          return False
+         # right along the top row 
+        if move == "right" and bodies["x"] and bodies ["y"] == head(["x"] + 1 and ["y"] - 1) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 2 and ["y"]) and head["y"] == 0:
+          return False 
+        if move == "right" and bodies["x"] and bodies ["y"] == head(["x"] + 1 and ["y"] - 1) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 2 and ["y"]) and head["y"] == 10:
+          return False    
+
+       
+        # left anywhere         
+        if move == "left" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 2 and ["y"] - 1) and head(["x"] - 2 and ["y"]) and head(["x"] - 2 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 1):
+          return False
+        # left along top row 
+        if move == "left" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 2 and ["y"] - 1) and head(["x"] - 2 and ["y"]) and head["y"] == 0: 
+          return False  
+        # left along bottom row
+        if move == "left" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 2 and ["y"] - 1) and head(["x"] - 2 and ["y"]) and head["y"] == 10: 
+          return False
+
+
+
+        # directly up  
+        if move == "up" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 1 and ["y"] - 2) and head(["x"] and ["y"] - 2) and head(["x"] + 1 and ["y"] - 2) and head(["x"] + 1 and ["y"] - 1):
+          return False
+        #directly up along right side 
+        if move == "up" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 1 and ["y"] - 2) and head(["x"] and ["y"] - 2) and head["x"] == 10:
+          return False
+        # directly up along left side  
+        if move == "up" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 1 and ["y"] - 2) and head(["x"] and ["y"] - 2) and head["x"] == 0:
           return False  
         
- 
-      
-                        
+        
+
+
+
+        # directly down 
+        if move == "down" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 2) and head(["x"] and ["y"] + 2) and head(["x"] + 1 and ["y"] + 2) and head(["x"] + 1 and ["y"] + 1):
+          return False     
+        # directly down along right side 
+        if move == "down" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 2) and head(["x"] and ["y"] + 2) and head["x"] == 10:
+          return False 
+        #directly down along left side 
+        if move == "down" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 2) and head(["x"] and ["y"] + 2) and head["x"] == 0:
+          return False
+
+
          #don't collide with own head
       for head_coords in snake["body"][:0]:
           if self.are_coords_equal(move_coords, head_coords):
-            return False  
+            return False 
+      
+      
 
        
                
