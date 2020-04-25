@@ -28,7 +28,7 @@ class Battlesnake(object):
         data = cherrypy.request.json
         print("START")
         return {
-            "color": "#cd681e ",
+            "color": "#cd681e",
             "headType": "bwc-scarf",
             "tailType": "bwc-bonhomme"
         }
@@ -210,16 +210,7 @@ class Snake:
           moves = ["down"] + moves
         elif head["y"] > target_coords["y"]:
           moves.remove("up")
-          moves = ["up"] + moves
-
-      if target_coords["y"] == 10 and target_coords["x"] == 0: 
-        return False    
-
-      if target_coords["y"] == 10 and target_coords["x"] == 10: 
-        return False 
-
-      if target_coords["y"] == 9 and target_coords["x"] == 10: 
-        return False      
+          moves = ["up"] + moves  
 
       if self.request["turn"] > 75: 
         return moves      
