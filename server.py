@@ -28,7 +28,7 @@ class Battlesnake(object):
         data = cherrypy.request.json
         print("START")
         return {
-            "color": "#cd681e",
+            "color": "#cd681e ",
             "headType": "bwc-scarf",
             "tailType": "bwc-bonhomme"
         }
@@ -156,13 +156,59 @@ class Snake:
           moves = ["down"] + moves
         elif head["y"] > target_coords["y"]:
           moves.remove("up")
-          moves = ["up"] + moves  
+          moves = ["up"] + moves
+        
+        if target_coords["y"] == 10 and target_coords["x"] == 0: 
+          return False    
 
-      if self.request["turn"] <= 50:  
+        if target_coords["y"] == 10 and target_coords["x"] == 10: 
+          return False 
+
+        if target_coords["y"] == 9 and target_coords["x"] == 10: 
+          return False       
+
+      
+
+      if self.request["turn"] <= 75:  
         return moves
 
+      # me = self.request["you"]
+      # if me["health"] < 95 :
+      #   food_distances = [
+      #     (self.distance_to_coords(food_coords), food_coords)
+      #     for food_coords in self.request["board"]["food"]
+      #   ]
+      #   food_distances.sort(key=lambda x: x[0])
+      #   target_coords = food_distances[0][1]
+      
+      # # moves towards food
+      #   if head["x"] < target_coords["x"]:
+      #     moves.remove("right")
+      #     moves = ["right"] + moves
+      #   elif head["x"] > target_coords["x"]:
+      #     moves.remove("left")
+      #     moves = ["left"] + moves
+
+      #   if head["y"] < target_coords["y"]:
+      #     moves.remove("down")
+      #     moves = ["down"] + moves
+      #   elif head["y"] > target_coords["y"]:
+      #     moves.remove("up")
+      #     moves = ["up"] + moves
+      #   if target_coords["y"] == 10 and target_coords["x"] == 0: 
+      #     return False    
+
+      #   if target_coords["y"] == 10 and target_coords["x"] == 10: 
+      #     return False 
+
+      #   if target_coords["y"] == 9 and target_coords["x"] == 10: 
+      #     return False   
+
+      #    if self.request["turn"] <= 75 :
+      #     return moves    
+
       me = self.request["you"]
-      if me["health"] < 95 :
+      if me["health"] < 100 :
         food_distances = [
           (self.distance_to_coords(food_coords), food_coords)
           for food_coords in self.request["board"]["food"]
@@ -183,36 +229,17 @@ class Snake:
           moves = ["down"] + moves
         elif head["y"] > target_coords["y"]:
           moves.remove("up")
-          moves = ["up"] + moves  
+          moves = ["up"] + moves
+        if target_coords["y"] == 10 and target_coords["x"] == 0: 
+          return False    
 
-      if self.request["turn"] <= 75:
-        return moves    
+        if target_coords["y"] == 10 and target_coords["x"] == 10: 
+          return False 
 
-      me = self.request["you"]
-      if me["health"] < 20 :
-        food_distances = [
-          (self.distance_to_coords(food_coords), food_coords)
-          for food_coords in self.request["board"]["food"]
-        ]
-        food_distances.sort(key=lambda x: x[0])
-        target_coords = food_distances[0][1]
-      
-      # moves towards food
-        if head["x"] < target_coords["x"]:
-          moves.remove("right")
-          moves = ["right"] + moves
-        elif head["x"] > target_coords["x"]:
-          moves.remove("left")
-          moves = ["left"] + moves
+        if target_coords["y"] == 9 and target_coords["x"] == 10: 
+          return False   
 
-        if head["y"] < target_coords["y"]:
-          moves.remove("down")
-          moves = ["down"] + moves
-        elif head["y"] > target_coords["y"]:
-          moves.remove("up")
-          moves = ["up"] + moves  
-
-      if self.request["turn"] > 75: 
+      if self.request["turn"] > 76: 
         return moves      
     
     def is_move_safe(self, move):
