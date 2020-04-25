@@ -140,7 +140,7 @@ class Snake:
           (self.distance_to_coords(food_coords), food_coords)
           for food_coords in self.request["board"]["food"]
         ]
-        food_distances.sort(key=lambda x: x[0])
+        food_distances.sort(key=lambda y: y[0])
         target_coords = food_distances[0][1]
       
       # moves towards food
@@ -185,8 +185,35 @@ class Snake:
           moves.remove("up")
           moves = ["up"] + moves  
 
-      if self.request["turn"] > 50: 
+      if self.request["turn"] <= 75:
         return moves    
+
+      me = self.request["you"]
+      if me["health"] < 20 :
+        food_distances = [
+          (self.distance_to_coords(food_coords), food_coords)
+          for food_coords in self.request["board"]["food"]
+        ]
+        food_distances.sort(key=lambda x: x[0])
+        target_coords = food_distances[0][1]
+      
+      # moves towards food
+        if head["x"] < target_coords["x"]:
+          moves.remove("right")
+          moves = ["right"] + moves
+        elif head["x"] > target_coords["x"]:
+          moves.remove("left")
+          moves = ["left"] + moves
+
+        if head["y"] < target_coords["y"]:
+          moves.remove("down")
+          moves = ["down"] + moves
+        elif head["y"] > target_coords["y"]:
+          moves.remove("up")
+          moves = ["up"] + moves  
+
+      if self.request["turn"] > 75: 
+        return moves      
     
     def is_move_safe(self, move):
       move_coords = self.translate_move_to_coords(move)
@@ -345,35 +372,35 @@ class Snake:
       for bodies in self.all_bodies():
         
         # directly right
-        if move == "right" and bodies["x"] and bodies ["y"] == head(["x"] + 1 and ["y"] - 1) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 2 and ["y"]) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 1 and ["y"] - 1):
+        if move == "right" and bodies["x"] and bodies["y"] == head(["x"] + 1 and ["y"] - 1) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 2 and ["y"]) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 1 and ["y"] - 1):
           return False
          # right along the top row 
-        if move == "right" and bodies["x"] and bodies ["y"] == head(["x"] + 1 and ["y"] - 1) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 2 and ["y"]) and head["y"] == 0:
+        if move == "right" and bodies["x"] and bodies["y"] == head(["x"] + 1 and ["y"] - 1) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 2 and ["y"]) and head["y"] == 0:
           return False 
-        if move == "right" and bodies["x"] and bodies ["y"] == head(["x"] + 1 and ["y"] - 1) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 2 and ["y"]) and head["y"] == 10:
+        if move == "right" and bodies["x"] and bodies["y"] == head(["x"] + 1 and ["y"] - 1) and head(["x"] + 2 and ["y"] - 1) and head(["x"] + 2 and ["y"]) and head["y"] == 10:
           return False    
 
        
         # left anywhere         
-        if move == "left" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 2 and ["y"] - 1) and head(["x"] - 2 and ["y"]) and head(["x"] - 2 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 1):
+        if move == "left" and bodies["x"] and bodies["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 2 and ["y"] - 1) and head(["x"] - 2 and ["y"]) and head(["x"] - 2 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 1):
           return False
         # left along top row 
-        if move == "left" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 2 and ["y"] - 1) and head(["x"] - 2 and ["y"]) and head["y"] == 0: 
+        if move == "left" and bodies["x"] and bodies["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 2 and ["y"] - 1) and head(["x"] - 2 and ["y"]) and head["y"] == 0: 
           return False  
         # left along bottom row
-        if move == "left" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 2 and ["y"] - 1) and head(["x"] - 2 and ["y"]) and head["y"] == 10: 
+        if move == "left" and bodies["x"] and bodies["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 2 and ["y"] - 1) and head(["x"] - 2 and ["y"]) and head["y"] == 10: 
           return False
 
 
 
         # directly up  
-        if move == "up" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 1 and ["y"] - 2) and head(["x"] and ["y"] - 2) and head(["x"] + 1 and ["y"] - 2) and head(["x"] + 1 and ["y"] - 1):
+        if move == "up" and bodies["x"] and bodies["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 1 and ["y"] - 2) and head(["x"] and ["y"] - 2) and head(["x"] + 1 and ["y"] - 2) and head(["x"] + 1 and ["y"] - 1):
           return False
         #directly up along right side 
-        if move == "up" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 1 and ["y"] - 2) and head(["x"] and ["y"] - 2) and head["x"] == 10:
+        if move == "up" and bodies["x"] and bodies["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 1 and ["y"] - 2) and head(["x"] and ["y"] - 2) and head["x"] == 10:
           return False
         # directly up along left side  
-        if move == "up" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 1 and ["y"] - 2) and head(["x"] and ["y"] - 2) and head["x"] == 0:
+        if move == "up" and bodies["x"] and bodies["y"] == head(["x"] - 1 and ["y"] - 1) and head(["x"] - 1 and ["y"] - 2) and head(["x"] and ["y"] - 2) and head["x"] == 0:
           return False  
         
         
@@ -381,13 +408,13 @@ class Snake:
 
 
         # directly down 
-        if move == "down" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 2) and head(["x"] and ["y"] + 2) and head(["x"] + 1 and ["y"] + 2) and head(["x"] + 1 and ["y"] + 1):
+        if move == "down" and bodies["x"] and bodies["y"] == head(["x"] - 1 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 2) and head(["x"] and ["y"] + 2) and head(["x"] + 1 and ["y"] + 2) and head(["x"] + 1 and ["y"] + 1):
           return False     
         # directly down along right side 
-        if move == "down" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 2) and head(["x"] and ["y"] + 2) and head["x"] == 10:
+        if move == "down" and bodies["x"] and bodies["y"] == head(["x"] - 1 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 2) and head(["x"] and ["y"] + 2) and head["x"] == 10:
           return False 
         #directly down along left side 
-        if move == "down" and bodies["x"] and bodies ["y"] == head(["x"] - 1 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 2) and head(["x"] and ["y"] + 2) and head["x"] == 0:
+        if move == "down" and bodies["x"] and bodies["y"] == head(["x"] - 1 and ["y"] + 1) and head(["x"] - 1 and ["y"] + 2) and head(["x"] and ["y"] + 2) and head["x"] == 0:
           return False
 
 
