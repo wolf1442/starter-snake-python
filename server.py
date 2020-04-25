@@ -253,6 +253,10 @@ class Snake:
         return False
       if move_coords["y"] > self.request["board"]["height"] :
         return False
+      if move_coords["x"] < 0: 
+        return False
+      if move_coords["y"] < 0:
+        return False
       
       # Don't move off board
 
