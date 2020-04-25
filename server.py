@@ -158,8 +158,8 @@ class Snake:
           moves.remove("up")
           moves = ["up"] + moves
         
-        if target_coords["y"] == 10 and target_coords["x"] == 0: 
-          return False    
+        # if target_coords["y"] == 10 and target_coords["x"] == 0: 
+        #   return False    
 
         if target_coords["y"] == 10 and target_coords["x"] == 10: 
           return False 
